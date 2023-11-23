@@ -245,6 +245,35 @@
                             </div>
                         </div>
                     </section>
+			<script>
+        document.getElementById('subscribeBtn').addEventListener('click', function () {
+            var email = document.getElementById('emailInput').value;
+
+            // Simple email validation (you might want to improve this)
+            if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                // Send email to server for processing
+                fetch('subscribe.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'email=' + encodeURIComponent(email),
+                })
+                .then(response => response.text())
+                .then(data => {
+                    console.log(data);
+                    // You can add more UI feedback here if needed
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Handle errors
+                });
+            } else {
+                // Handle invalid email
+                alert('Invalid email address. Please try again.');
+            }
+        });
+    </script>
                     <!-- Subscribe End -->
 
                     <!-- Services Start -->
