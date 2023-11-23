@@ -1,20 +1,15 @@
 <?php
-$subscribersFile = 'subscribers.txt';
+// Get the email from the POST data
+$email = isset($_POST['email']) ? $_POST['email'] : '';
 
-if (!file_exists($subscribersFile)) {
-    // Create the file if it doesn't exist
-    file_put_contents($subscribersFile, '');
-}
-
-$subscribers = file($subscribersFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-
-if (!empty($subscribers)) {
-    echo '<ul class="list-group">';
-    foreach ($subscribers as $subscriber) {
-        echo '<li class="list-group-item">' . htmlspecialchars($subscriber) . '</li>';
-    }
-    echo '</ul>';
+// Simple email validation (you might want to improve this)
+if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    // Save the email to the subscribers.txt file
+    $subscribersFile = 'subscribers.txt';
+    file_put_contents($subscribersFile, $email . PHP_EOL, FILE_APPEND | LOCK_EX);
+    
+    echo 'Email subscribed successfully.';
 } else {
-    echo '<li class="list-group-item">No subscribers yet.</li>';
+    echo 'Invalid email address. Please try again.';
 }
 ?>
